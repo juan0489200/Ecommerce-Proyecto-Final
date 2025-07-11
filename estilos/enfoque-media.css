@@ -1,0 +1,12 @@
+@media (max-width: 768px) {
+    .hero {
+        justify-content: center;
+        background-position: top center;
+    }
+
+    .hero .hero-content {
+        width: 90%;
+        align-items: center;
+        text-align: center;
+    }
+}
