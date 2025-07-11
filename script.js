@@ -256,25 +256,7 @@ function actualizarTotales() {
     // Actualizar el total general
     actualizarTotalCarrito(subtotalCalculado);
 }
-    
-
-//--------BANNER DE BUSQUEDA-------//
-   
-document.addEventListener('DOMContentLoaded', function () {
-    const formularioBusqueda = document.getElementById('formularioBusqueda');
-    const inputBusqueda = document.getElementById('inputBusqueda');
-
-
-
-
-
-
-
-
-
-    
-
-//------------------------------------------------------------//
+    //------------------------------------------------------------//
 
     //---CONTACTO---//
     
