@@ -256,17 +256,59 @@ function actualizarTotales() {
     // Actualizar el total general
     actualizarTotalCarrito(subtotalCalculado);
 }
-    //------------------------------------------------------------//
-
-    //---CONTACTO---//
     
- document.addEventListener('DOMContentLoaded', function () {
+//------BANNER DE BUSQUEDA------//
+document.addEventListener('DOMContentLoaded', function () {
+  const formularioBusqueda = document.getElementById('formulario-busqueda');
+  const inputBusqueda = document.getElementById('input-busqueda');
+  const productosContainer = document.querySelector('.productos-container');
+  const mensajeBusqueda = document.getElementById('mensaje-busqueda');
+
+  if (formularioBusqueda) {
+    formularioBusqueda.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+      const textoBusqueda = inputBusqueda.value.trim().toLowerCase();
+
+      const productos = productosContainer.querySelectorAll('.producto');
+
+      let algunoVisible = false;
+
+      productos.forEach(function (producto) {
+        const nombreProducto = producto.dataset.nombre.toLowerCase();
+
+        if (nombreProducto.includes(textoBusqueda)) {
+          producto.style.display = 'block';
+          algunoVisible = true;
+        } else {
+          producto.style.display = 'none';
+        }
+      });
+
+      if (!algunoVisible) {
+        mensajeBusqueda.textContent = `No se encontraron productos que coincidan con "${textoBusqueda}".`;
+      } else {
+        mensajeBusqueda.textContent = '';
+      }
+    });
+  }
+});
+
+    
+    
+    
+    
+    
+    
+    
+    //-------------------CONTACTO------------------//
     const formularioContacto = document.getElementById('formularioContacto');
     const tuNombre = document.getElementById('tuNombre');
     const tuCorreo = document.getElementById('tuCorreo');
     const asunto = document.getElementById('asunto');
     const tuMensaje = document.getElementById('tuMensaje');
 
+   
+    
     // Función para manejar la visibilidad y el texto de error
     
     const mostrarEstadoCampo = (elementoInput, esValido, mensaje = '') => {
@@ -282,13 +324,12 @@ function actualizarTotales() {
         }
     };
 
-
-// Función para validar el formato de correo electrónico
+    // Función para validar el formato de correo electrónico
     const esCorreoValido = (correo) => {
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regexCorreo.test(correo);
     };
-    // console.log(esCorreoValido('miguel@miguel.com'))
+    // console.log(esCorreoValido('Tatu@tutiendaonline.com'))
 
     // Función para validar un campo individual
     const validarCampo = (campo, mensajeVacio, mensajeInvalido = '') => {
@@ -314,21 +355,20 @@ function actualizarTotales() {
    
     // agrega el evento 'change' a todos los campos
     [tuNombre, tuCorreo, asunto, tuMensaje].forEach(campo => {
-        campo.addEventListener('change', () => {
-            if (campo.id === 'tuCorreo') {
-                validarCampo(tuCorreo, 'El correo electrónico es obligatorio', 'Ingresa un correo electrónico válido.');
-            } else if (campo.id === 'tuNombre') {
-                validarCampo(tuNombre, 'Por favor, ingresa tu nombre.');
-            } else if (campo.id === 'asunto') {
-                validarCampo(asunto, 'Por favor, ingresa un asunto.');
-            } else if (campo.id === 'tuMensaje') {
-                validarCampo(tuMensaje, 'Por favor, ingresa tu mensaje.');
-            }
-        });
-
+        if (campo) {
+            campo.addEventListener('change', () => {
+                if (campo.id === 'tuCorreo') {
+                    validarCampo(tuCorreo, 'El correo electrónico es obligatorio', 'Ingresa un correo electrónico válido.');
+                } else if (campo.id === 'tuNombre') {
+                    validarCampo(tuNombre, 'Por favor, ingresa tu nombre.');
+                } else if (campo.id === 'asunto') {
+                    validarCampo(asunto, 'Por favor, ingresa un asunto.');
+                } else if (campo.id === 'tuMensaje') {
+                    validarCampo(tuMensaje, 'Por favor, ingresa tu mensaje.');
+                }
+            });
+        }
     });
-
-
 
     // Escuchador de evento 'submit' del formulario
     formularioContacto.addEventListener('submit', function (evento) {
@@ -342,29 +382,22 @@ function actualizarTotales() {
             { elemento: tuMensaje, mensajeVacio: 'Por favor, ingresa tu mensaje.' }
         ];
 
-        let formularioEsValido = true; 
+            let formularioEsValido = true; 
 
-    
-        camposAValidar.forEach(campoInfo => {
-            
-            const esCampoValido = validarCampo(campoInfo.elemento, campoInfo.mensajeVacio, campoInfo.mensajeInvalido);
-            if (!esCampoValido) {
-                formularioEsValido = false;
+            camposAValidar.forEach(campoInfo => {
+                const esCampoValido = validarCampo(campoInfo.elemento, campoInfo.mensajeVacio, campoInfo.mensajeInvalido);
+                if (!esCampoValido) {
+                    formularioEsValido = false;
+                }
+            });
+
+            if (formularioEsValido) {
+                console.log('¡Formulario enviado con éxito!');
+                formularioContacto.reset(); // Resetea el formulario
+            } else {
+                console.log('El formulario no es válido. Por favor, revisa los campos.');
             }
+        
+
         });
-
-        if (formularioEsValido) {
-            console.log('¡Formulario enviado con éxito!');
-            
-            formularioContacto.reset(); // Resetea el formulario
-        } else {
-            console.log('El formulario no es válido. Por favor, revisa los campos.');
-        }
-    });
-
-});
-
-
-
-
-
+    
