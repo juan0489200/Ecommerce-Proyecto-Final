@@ -26,18 +26,18 @@ function Producto(producto) {
 
   
     return `
-    <div class="producto">
-        <img src="${producto.image}" alt="${producto.title}">
-        <div class="producto-descripcion">
-            <span>${producto.category}</span>
-            <h5>${displayTitle}</h5>
-            <h4>$${producto.price.toFixed(2)}</h4>
+        <div class="producto" data-nombre="${producto.title}">
+            <img src="${producto.image}" alt="${producto.title}">
+            <div class="producto-descripcion">
+                <span>${producto.category}</span>
+                <h5>${displayTitle}</h5>
+                <h4>$${producto.price.toFixed(2)}</h4>
+            </div>
+            <a id="btn-agregar-${producto.id}" class="carrito">
+                <i class="fal fa-shopping-cart"></i>
+            </a>
         </div>
-        <a id="btn-agregar-${producto.id}" class="carrito">
-            <i class="fal fa-shopping-cart"></i>
-        </a>
-    </div>
-    `;
+        `;
 }
 
 
@@ -132,6 +132,7 @@ function cargarProductosCarrito() {
 }
 
 // --------------------------------------------------------------------------------------//
+
 // Funciones auxiliares
 
 function crearFilaProducto(producto) {
@@ -159,8 +160,7 @@ function actualizarTotalCarrito(subtotal) {
     document.querySelectorAll('#total').forEach(elemento => elemento.innerHTML = subtotal.toFixed(2))
 }
 
-// ----------------------------------------------------------------------------------------------------- //
-// Lógica para eliminar o cambiar cantidad
+// -----Lógica para eliminar o cambiar cantidad------//
 
 function eventosFila() {
 
@@ -258,49 +258,58 @@ function actualizarTotales() {
 }
     
 //------BANNER DE BUSQUEDA------//
-document.addEventListener('DOMContentLoaded', function () {
-  const formularioBusqueda = document.getElementById('formulario-busqueda');
-  const inputBusqueda = document.getElementById('input-busqueda');
-  const productosContainer = document.querySelector('.productos-container');
-  const mensajeBusqueda = document.getElementById('mensaje-busqueda');
 
-  if (formularioBusqueda) {
-    formularioBusqueda.addEventListener('submit', function (evento) {
-      evento.preventDefault();
-      const textoBusqueda = inputBusqueda.value.trim().toLowerCase();
+/*document.addEventListener('DOMContentLoaded', function () {
+    const formularioBusqueda = document.getElementById('formulario-busqueda');
+    const inputBusqueda = document.getElementById('input-busqueda');
+    const botonBusqueda = document.getElementById('boton-busqueda');
+    const productosContainer = document.querySelector('.productos-container');
+    const mensajeBusqueda = document.getElementById('mensaje-busqueda');
 
-      const productos = productosContainer.querySelectorAll('.producto');
+    function buscarProductos() {
+        const textoBusqueda = inputBusqueda.value.trim().toLowerCase();
+        const productos = productosContainer.querySelectorAll('.producto');
+        let algunoVisible = false;
 
-      let algunoVisible = false;
+        productos.forEach(function (producto) {
+            const nombreProducto = producto.dataset.nombre ? producto.dataset.nombre.toLowerCase() : '';
 
-      productos.forEach(function (producto) {
-        const nombreProducto = producto.dataset.nombre.toLowerCase();
+            if (nombreProducto.includes(textoBusqueda)) {
+                producto.style.display = 'block';
+                algunoVisible = true;
+            } else {
+                producto.style.display = 'none';
+            }
+        });
 
-        if (nombreProducto.includes(textoBusqueda)) {
-          producto.style.display = 'block';
-          algunoVisible = true;
+        if (!algunoVisible) {
+            mensajeBusqueda.textContent = `No se encontraron productos que coincidan con "${textoBusqueda}".`;
         } else {
-          producto.style.display = 'none';
+            mensajeBusqueda.textContent = '';
         }
-      });
+    }
 
-      if (!algunoVisible) {
-        mensajeBusqueda.textContent = `No se encontraron productos que coincidan con "${textoBusqueda}".`;
-      } else {
-        mensajeBusqueda.textContent = '';
-      }
-    });
-  }
+    if (formularioBusqueda) {
+        formularioBusqueda.addEventListener('submit', function (evento) {
+            evento.preventDefault();
+            buscarProductos();
+        });
+    }
+
+    if (botonBusqueda) {
+        botonBusqueda.addEventListener('click', function () {
+            buscarProductos();
+        });
+    }
+     if (inputBusqueda) {
+        inputBusqueda.addEventListener('input', buscarProductos);
+    }
 });
 
-    
-    
-    
-    
-    
-    
-    
-    //-------------------CONTACTO------------------//
+*/
+
+
+   //-------------------CONTACTO------------------//
     const formularioContacto = document.getElementById('formularioContacto');
     const tuNombre = document.getElementById('tuNombre');
     const tuCorreo = document.getElementById('tuCorreo');
@@ -400,4 +409,20 @@ document.addEventListener('DOMContentLoaded', function () {
         
 
         });
-    
+        // Función para cargar productos desde JSON
+function cargarProductos() {
+    fetch('./data/productos.json')
+        .then(response => response.json())
+        .then(data => dibujarProductos(data))
+        .catch(error => {
+            console.error('Error al cargar productos:', error);
+            mostrarProductosEjemplo();
+        });
+}
+
+// Función para dibujar los productos en el DOM
+function dibujarProductos(productos) {
+    const productosHTML = productos.map(producto => crearProductoHTML(producto));
+    document.querySelector('.section-productos .row').innerHTML = productosHTML.join('');
+}
+
