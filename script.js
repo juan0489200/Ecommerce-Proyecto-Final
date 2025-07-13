@@ -135,15 +135,29 @@ document.addEventListener('DOMContentLoaded', function () {
             textoError.innerText = mensaje;
         }
     };
+   
+  function actualizarContadorCarrito() {
+  const carrito = JSON.parse(localStorage.getItem('carritoDeCompras')) || [];
+  const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
+  const contador = document.getElementById('contador-carrito');
+  if (contador) contador.textContent = totalItems;
+}
 
+    // Llamar a la función para actualizar el contador al cargar la página
+boton.addEventListener('click', () => {
+    agregarProductoAlCarrito(producto);
+    const prodElemento = boton.closest('.producto');
+    prodElemento.classList.add('agregado');
+    setTimeout(() => prodElemento.classList.remove('agregado'), 1000);
+});
     // mostrarEstadoCampo(asunto,false,'mensaje a agregar')
 
 
     // Función para validar el formato de correo electrónico
-    const esCorreoValido = (correo) => {
+    function esCorreoValido(correo) {
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regexCorreo.test(correo);
-    };
+    }
     // console.log(esCorreoValido('miguel@miguel.com'))
 
     // Función para validar un campo individual
@@ -218,6 +232,28 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             console.log('El formulario no es válido. Por favor, revisa los campos.');
         }
+        const data = {
+    nombre: tuNombre.value,
+    correo: tuCorreo.value,
+    mensaje: tuMensaje.value
+};
+
+fetch('https://formspree.io/f/tuID', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+})
+.then(response => {
+    if (response.ok) {
+        alert('Mensaje enviado correctamente.');
+        formularioContacto.reset();
+    } else {
+        alert('Hubo un error al enviar el mensaje.');
+    }
+})
+.catch(error => {
+    console.error('Error en el envío:', error);
+});
     });
 
 });

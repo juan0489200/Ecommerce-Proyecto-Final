@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- fontawesome -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="stylesheet" href="estilos/hero.css">
     <title>Ecommerce-Talento-Tech</title>
@@ -25,12 +25,10 @@
                 <li><a href="">Extras</a></li>
                 <li><a href="">Contacto</a></li>
                 <li>
-                    <a href="cart.html">
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    <a href="cart.html" class="carrito-icono">
+                        <span id="contador-carrito" class="contador-carrito">0</span>
                     </a>
                 </li>
-            </ul>
-        </div>
     </header>
     <main>
         <section class="hero">
@@ -44,7 +42,7 @@
                 <button class="btn btn-primarys">Ver productos destacados</button>
             </div>
         </section>
-        </style>
+
          
  
 
@@ -165,6 +163,7 @@
  
 
         <!-- FORMULARIO -->
+        <form id="formularioContacto" action="https://formspree.io/f/tuID" method="POST"></form>
         <section class="form-details" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 40px 0;">
             <form action="" id="formularioContacto">
                 <h2>Escribe un mensaje...</h2>
@@ -189,7 +188,6 @@
        
        
         <!-- NEWSLETTER -->
-     </style>
         <section class="newsletter section-p1 section-m1">
             <div class="newstext"> 
                 <h4>Unite a nuestra comunidad</h4>
