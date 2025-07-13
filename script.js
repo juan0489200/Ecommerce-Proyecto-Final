@@ -1,109 +1,28 @@
 //<TIENDA
 
-let productosGlobales = []; 
-const API_URL = 'https://fakestoreapi.com/products';
+// Script for navigation bar
+const bar = document.getElementById('bar');
+const nav = document.getElementById('navbar');
+const cerrar = document.getElementById('close');
 
-// 1. Función para realizar la petición a la API
-async function llamarAPI(API) {
-    try {
-        const response = await fetch(API);
-        if (!response.ok) {
-            throw new Error(`Error HTTP! estado: ${response.status}`);
-        }
-        productosGlobales = await response.json(); // Almacenamos todos los productos
-        return productosGlobales;
-    } catch (error) {
-        console.error('Error al obtener los productos de la API:', error);
-        return [];
-    }
+if (bar) {
+    bar.addEventListener('click', () => {
+        nav.classList.add('active')
+    })
 }
 
-// 2. Función que recibe un producto y crea su elemento HTML como una cadena de texto
-
-function Producto(producto) {
-   
-    const displayTitle = producto.title.substring(0, 20) + '...';
-
-  
-    return `
-        <div class="producto" data-nombre="${producto.title}">
-            <img src="${producto.image}" alt="${producto.title}">
-            <div class="producto-descripcion">
-                <span>${producto.category}</span>
-                <h5>${displayTitle}</h5>
-                <h4>$${producto.price.toFixed(2)}</h4>
-            </div>
-            <a id="btn-agregar-${producto.id}" class="carrito">
-                <i class="fal fa-shopping-cart"></i>
-            </a>
-        </div>
-        `;
+if (cerrar) {
+    cerrar.addEventListener('click', (e) => {
+        e.preventDefault();
+        nav.classList.remove('active')
+    })
 }
-
-
-function dibujarDatos(json) {
-    const filas = json.map(obj => Producto(obj));
-    document.querySelector('.productos-container').innerHTML = filas.join('');
-
-    
-    adjuntarEventosCarrito();
-}
-
-//Agregamos productos a localStorage
-
-function adjuntarEventosCarrito() {
-    
-    productosGlobales.forEach(producto => {
-        const boton = document.getElementById(`btn-agregar-${producto.id}`);
-        if (boton) { 
-            boton.addEventListener('click', () => {
-                agregarProductoAlCarrito(producto); 
-            });
-        }
-    });
-}
-
-//Agregamos productos a localStorage
-function agregarProductoAlCarrito(producto) {
-    let carrito = JSON.parse(localStorage.getItem('carritoDeCompras')) || [];
-
-    const indiceProductoExistente = carrito.findIndex(item => item.id === producto.id);
-
-    if (indiceProductoExistente !== -1) {
-        carrito[indiceProductoExistente].cantidad++;
-    } else {
-        carrito.push({
-            id: producto.id,
-            title: producto.title,
-            price: producto.price,
-            image: producto.image,
-            cantidad: 1
-        });
-    }
-
-    localStorage.setItem('carritoDeCompras', JSON.stringify(carrito));
-    alert(`${producto.title} agregado al carrito!`);
-}
-
-// Llamar a la función principal para que se ejecute cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', 
-    async () =>{
-    await llamarAPI(API_URL); // Esperar a que se carguen los productos
-    if (productosGlobales.length > 0) {
-        console.log(productosGlobales)
-        dibujarDatos(productosGlobales); // Dibujar y adjuntar eventos
-            }
-    }
-);
-
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductosCarrito();
 });
 
-// ----------------------------------------------------------------------------------- //
-
-
+// ----------------------------------------------------------------------- //
 // Cargamos los productos que se encuentran en localStorage
 function cargarProductosCarrito() {
     // Obtenemos el carrito
@@ -131,8 +50,7 @@ function cargarProductosCarrito() {
     eventosFila();
 }
 
-// --------------------------------------------------------------------------------------//
-
+// ---------------------------------------------- //
 // Funciones auxiliares
 
 function crearFilaProducto(producto) {
@@ -160,35 +78,37 @@ function actualizarTotalCarrito(subtotal) {
     document.querySelectorAll('#total').forEach(elemento => elemento.innerHTML = subtotal.toFixed(2))
 }
 
-// -----Lógica para eliminar o cambiar cantidad------//
+// ------------------------------------------------- //
+// Lógica para eliminar o cambiar cantidad
 
 function eventosFila() {
 
-    
+    // Eventos para botones de eliminar
+    //const botonesEliminar = document.querySelectorAll('.remove-btn');
     document.querySelectorAll('.remove-btn').forEach(boton => {
         boton.addEventListener('click', () => {
-            
+            // Obtenemos el carrito
             const carrito = JSON.parse(localStorage.getItem('carritoDeCompras')) || [];
-            
+            //obtenemos el id del boton
             const productId = parseInt(boton.id);
-            
+            // Encontrar el índice del producto en el carrito
             const indiceProducto = carrito.findIndex(producto => producto.id === productId);
-        
+            //console.log(indiceProducto)
             if (indiceProducto !== -1) {
-           
+                // Eliminar el producto del array
                 carrito.splice(indiceProducto, 1);
 
-               
+                // Actualizar localStorage
                 localStorage.setItem('carritoDeCompras', JSON.stringify(carrito));
 
-               
+                // Recargar la vista del carrito
                 cargarProductosCarrito();
 
                 console.log(`Producto con ID ${productId} eliminado del carrito`);
             }
 
         });
-    }); 
+    });
 
 
     // Eventos para cambiar cantidad
@@ -257,69 +177,16 @@ function actualizarTotales() {
     actualizarTotalCarrito(subtotalCalculado);
 }
     
-//------BANNER DE BUSQUEDA------//
 
-/*document.addEventListener('DOMContentLoaded', function () {
-    const formularioBusqueda = document.getElementById('formulario-busqueda');
-    const inputBusqueda = document.getElementById('input-busqueda');
-    const botonBusqueda = document.getElementById('boton-busqueda');
-    const productosContainer = document.querySelector('.productos-container');
-    const mensajeBusqueda = document.getElementById('mensaje-busqueda');
-
-    function buscarProductos() {
-        const textoBusqueda = inputBusqueda.value.trim().toLowerCase();
-        const productos = productosContainer.querySelectorAll('.producto');
-        let algunoVisible = false;
-
-        productos.forEach(function (producto) {
-            const nombreProducto = producto.dataset.nombre ? producto.dataset.nombre.toLowerCase() : '';
-
-            if (nombreProducto.includes(textoBusqueda)) {
-                producto.style.display = 'block';
-                algunoVisible = true;
-            } else {
-                producto.style.display = 'none';
-            }
-        });
-
-        if (!algunoVisible) {
-            mensajeBusqueda.textContent = `No se encontraron productos que coincidan con "${textoBusqueda}".`;
-        } else {
-            mensajeBusqueda.textContent = '';
-        }
-    }
-
-    if (formularioBusqueda) {
-        formularioBusqueda.addEventListener('submit', function (evento) {
-            evento.preventDefault();
-            buscarProductos();
-        });
-    }
-
-    if (botonBusqueda) {
-        botonBusqueda.addEventListener('click', function () {
-            buscarProductos();
-        });
-    }
-     if (inputBusqueda) {
-        inputBusqueda.addEventListener('input', buscarProductos);
-    }
-});
-
-*/
-
-
-   //-------------------CONTACTO------------------//
+ //-------------------CONTACTO------------------//
+   document.addEventListener('DOMContentLoaded', function () {
     const formularioContacto = document.getElementById('formularioContacto');
     const tuNombre = document.getElementById('tuNombre');
     const tuCorreo = document.getElementById('tuCorreo');
     const asunto = document.getElementById('asunto');
     const tuMensaje = document.getElementById('tuMensaje');
 
-   
-    
     // Función para manejar la visibilidad y el texto de error
-    
     const mostrarEstadoCampo = (elementoInput, esValido, mensaje = '') => {
         const divPadre = elementoInput.parentNode;
         const textoError = divPadre.querySelector('.texto-error');
@@ -333,12 +200,15 @@ function actualizarTotales() {
         }
     };
 
+    // mostrarEstadoCampo(asunto,false,'mensaje a agregar')
+
+
     // Función para validar el formato de correo electrónico
     const esCorreoValido = (correo) => {
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regexCorreo.test(correo);
     };
-    // console.log(esCorreoValido('Tatu@tutiendaonline.com'))
+    // console.log(esCorreoValido('miguel@miguel.com'))
 
     // Función para validar un campo individual
     const validarCampo = (campo, mensajeVacio, mensajeInvalido = '') => {
@@ -364,20 +234,21 @@ function actualizarTotales() {
    
     // agrega el evento 'change' a todos los campos
     [tuNombre, tuCorreo, asunto, tuMensaje].forEach(campo => {
-        if (campo) {
-            campo.addEventListener('change', () => {
-                if (campo.id === 'tuCorreo') {
-                    validarCampo(tuCorreo, 'El correo electrónico es obligatorio', 'Ingresa un correo electrónico válido.');
-                } else if (campo.id === 'tuNombre') {
-                    validarCampo(tuNombre, 'Por favor, ingresa tu nombre.');
-                } else if (campo.id === 'asunto') {
-                    validarCampo(asunto, 'Por favor, ingresa un asunto.');
-                } else if (campo.id === 'tuMensaje') {
-                    validarCampo(tuMensaje, 'Por favor, ingresa tu mensaje.');
-                }
-            });
-        }
+        campo.addEventListener('change', () => {
+            if (campo.id === 'tuCorreo') {
+                validarCampo(tuCorreo, 'El correo electrónico es obligatorio', 'Ingresa un correo electrónico válido.');
+            } else if (campo.id === 'tuNombre') {
+                validarCampo(tuNombre, 'Por favor, ingresa tu nombre.');
+            } else if (campo.id === 'asunto') {
+                validarCampo(asunto, 'Por favor, ingresa un asunto.');
+            } else if (campo.id === 'tuMensaje') {
+                validarCampo(tuMensaje, 'Por favor, ingresa tu mensaje.');
+            }
+        });
+
     });
+
+
 
     // Escuchador de evento 'submit' del formulario
     formularioContacto.addEventListener('submit', function (evento) {
@@ -391,38 +262,26 @@ function actualizarTotales() {
             { elemento: tuMensaje, mensajeVacio: 'Por favor, ingresa tu mensaje.' }
         ];
 
-            let formularioEsValido = true; 
+        let formularioEsValido = true; // Asumimos que es válido al principio
 
-            camposAValidar.forEach(campoInfo => {
-                const esCampoValido = validarCampo(campoInfo.elemento, campoInfo.mensajeVacio, campoInfo.mensajeInvalido);
-                if (!esCampoValido) {
-                    formularioEsValido = false;
-                }
-            });
-
-            if (formularioEsValido) {
-                console.log('¡Formulario enviado con éxito!');
-                formularioContacto.reset(); // Resetea el formulario
-            } else {
-                console.log('El formulario no es válido. Por favor, revisa los campos.');
+        // Itera sobre cada campo y ejecuta la validación
+        // Si 'validarCampo' retorna false, significa que hay un error y actualizamos formularioEsValido
+        camposAValidar.forEach(campoInfo => {
+            // La función validarCampo se encarga de mostrar/ocultar el error.
+            // Si esCampoValido es falso, significa que hubo un error en ese campo.
+            const esCampoValido = validarCampo(campoInfo.elemento, campoInfo.mensajeVacio, campoInfo.mensajeInvalido);
+            if (!esCampoValido) {
+                formularioEsValido = false; // Marcamos el formulario como inválido si al menos un campo falla
             }
-        
-
         });
-        // Función para cargar productos desde JSON
-function cargarProductos() {
-    fetch('./data/productos.json')
-        .then(response => response.json())
-        .then(data => dibujarProductos(data))
-        .catch(error => {
-            console.error('Error al cargar productos:', error);
-            mostrarProductosEjemplo();
-        });
-}
 
-// Función para dibujar los productos en el DOM
-function dibujarProductos(productos) {
-    const productosHTML = productos.map(producto => crearProductoHTML(producto));
-    document.querySelector('.section-productos .row').innerHTML = productosHTML.join('');
-}
+        if (formularioEsValido) {
+            console.log('¡Formulario enviado con éxito!');
+            // Aquí puedes añadir la lógica para enviar el formulario (por ejemplo, con fetch API)
+            formularioContacto.reset(); // Resetea el formulario
+        } else {
+            console.log('El formulario no es válido. Por favor, revisa los campos.');
+        }
+    });
 
+});
