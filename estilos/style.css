@@ -62,79 +62,40 @@ p {
 .section-m1 {
   margin: 40px 0;
 }
-.carrito-icono {
-  position: relative;
-  display: inline-block;
-}
-
-.carrito-icono i {
-  font-size: 24px;
-  color: #000; /* Cambia el color si es necesario */
-}
-
-.contador-carrito {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  line-height: 1;
-  font-weight: bold;
-}
-
-/* Animación cuando se agrega un producto */
-.producto.agregado {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
   .section-busqueda {
 background: linear-gradient(135deg, #f5f7fa 100%, #c3cfe2 100%);
 padding: 40px 0;
                 }
-.busqueda-container {
-  width: 100%;
-  max-width: 2000px;
-  background: #f5f7fa;
-  border-radius: 8px;
-  padding: 24px 32px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  
-}
-.busqueda-input-group {
-position: relative;
-flex: 1;
-}
-.busqueda-input-group input {
-width: 100%;
-padding: 12px 40px 12px 16px;
-border: 1px solid #ccc;
-border-radius: 4px;
-font-size: 1em;
+                .busqueda-container {
+                    width: 100%;
+                    max-width: 2000px;
+                    background: #f5f7fa;
+                    border-radius: 8px;
+                    padding: 24px 32px;
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+                }
+                .busqueda-input-group {
+                    position: relative;
+                    flex: 1;
+                }
+                .busqueda-input-group input {
+                    width: 100%;
+                    padding: 12px 40px 12px 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-size: 1em;
                 }
 .busqueda-input-group .fa-search {
-position: absolute;
-right: 12px;
-top: 50%;
-transform: translateY(-50%);
-color: #888;
-font-size: 1.2em;
-pointer-events: none;}
+                    position: absolute;
+                    right: 12px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #888;
+                    font-size: 1.2em;
+                    pointer-events: none;}
 .form-details {
   background-color: #f9f9f9;
   padding: 40px;
