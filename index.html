@@ -41,7 +41,7 @@
                 <h1>El groove a tus manos</h1>
                 <h4>¡Stock disponible en todos los productos publicados!</h4>
                 <p>¡Enterate de todas las novedades!</p>
-                <button class="btn-comprar">Ver productos destacados</button>   
+                <button class=""btn btn-primarys">Ver productos destacados</button>
             </div>
         </section>
         </style>
@@ -49,7 +49,8 @@
  
 
         <!-- BANNER DE BUSQUEDA -->
-        <div class="busqueda-container" style="margin-bottom: 2px;"></div>
+         <section class="banner"></section>
+        <div class="busqueda-container" class="row justify-content-center" style="margin-bottom: 2px;"></div>
         <section class="section-busqueda section-p1 section-m1" style="background: linear-gradient(135deg, #c3cfe2 100%, #f5f7fa 100%); padding: 40px 0;">
             <div class="busqueda-texto">
                 <div class="busqueda-input-group" style="max-width: 900px; margin: 0 auto; display: flex; align-items: center;">
@@ -58,11 +59,15 @@
                 </div>
             </div>
         </section>
+               
+        
+               
         
  
 <p id="mensaje-busqueda" class="mt-2 text-danger text-center"></p>
         
 
+        <!-- SECCIÓN PRODUCTOS---->
         <section class="section-productos section-p1">
             <h2>Baterias, Redoblantes y Más</h2>
             <p>Ofertas que no te podés perder</p>
@@ -194,40 +199,65 @@
             </div>
             <div class="form">
                 <input type="email" placeholder="Tu correo electrónico" style="padding: 12px 16px; border-radius: 0; border: 1px solid #ccc; width: 250px; font-size: 1em; transition: border-color 0.2s;">
-                <button>Suscribirme</button>
+                <button class="btn btn-primary" button>Suscribirme</button>
             </div>
         </section>
     </main>
 
 
 <!-- FOOTER -->
-<div class="bg-dark text-light pt-4 pb-3 mt-5">
+<footer class="bg-dark text-light pt-4 pb-3 mt-5">
   <div class="container">
     <div class="row text-center text-md-start">
+
       <!-- Redes Sociales -->
-      <div class="col-md-4 mb-4 ">
+      <div class="col-md-3 mb-4">
         <h5>Seguinos en</h5>
         <div class="d-flex justify-content-center justify-content-md-start gap-3 fs-4">
-          <a href="d-flex justify-content-center" class="text-light"><i class="fab fa-facebook-f"></i></a>
-          <a href="d-flex justify-content-center" class="text-light"><i class="fab fa-twitter"></i></a>
-          <a href="d-flex justify-content-center" class="text-light"><i class="fab fa-instagram"></i></a>
-          <a href="d-flex justify-content-center" class="text-light"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Mi Cuenta -->
+      <div class="col-md-3 mb-4">
+        <h5>Mi Cuenta</h5>
+        <div class="d-flex flex-column gap-1">
+          <p class="mb-1">Iniciar Sesión</p>
+          <p class="mb-1">Ver Carrito</p>
+          <p class="mb-1">Mis Favoritos</p>
+          <p class="mb-1">Seguimiento de Pedido</p>
+          <p class="mb-1">Ayuda</p>
+        </div>
+      </div>
+
+      <!-- Información -->
+      <div class="col-md-3 mb-4">
+        <h5 class="fw-bold">Información</h5>
+        <div class="d-flex flex-column gap-1">
+          <p class="mb-1">Términos y Condiciones</p>
+          <p class="mb-1">Política de Privacidad</p>
+          <p class="mb-1">Política de Devoluciones</p>
+          <p class="mb-1">Envíos y Entregas</p>
+          <p class="mb-1">Preguntas Frecuentes</p>
         </div>
       </div>
 
       <!-- Contacto -->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-3 mb-4">
         <h5>Contacto</h5>
-        <p><strong>Dirección:</strong> Av. Antártida Argentina 1355, Ciudad Autónoma de Buenos Aires</p>
-        <p><strong>Teléfono:</strong> +54 11 1234 2346</p>
-        <p><strong>Horario:</strong> Lunes a Viernes, 9:00 a 18:00</p>
+        <p><span class="fw-semibold">Dirección:</span> Av. Antártida Argentina 1355, CABA</p>
+        <p><span class="fw-semibold">Teléfono:</span> +54 11 1234 2346</p>
+        <p><span class="fw-semibold">Horario:</span> Lunes a Viernes, 9:00 a 18:00</p>
       </div>
+    </div>
 
-      <!-- Métodos de Pago -->
-      <div class="col-md-4 mb-4 text-center">
-        <h5>Pasarelas de pago seguras</h5>
-        <img src="./img/pay/pay.png" alt="Métodos de Pago" class="img-fluid mt-2" style="max-width: 180px;">
-      </div>
+    <!-- Métodos de Pago -->
+    <div class="text-center mb-3">
+      <h5>Pasarelas de pago seguras</h5>
+      <img src="./img/pay/pay.png" alt="Métodos de Pago" class="img-fluid mt-2" style="max-width: 180px;">
     </div>
 
     <hr class="border-secondary">
@@ -237,6 +267,3 @@
     </div>
   </div>
 </footer>
-
-
-
